@@ -9,7 +9,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://jackwill7080:Kashyap7080@portfoliokash.kyrqmza.mongodb.net/?retryWrites=true&w=majority";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 6000;
 
 
 const client = new MongoClient(uri, {
@@ -50,7 +50,7 @@ function verifyToken(req, res, next) {
 }
 
 // Use the middleware in your route
-app.get('/express_backend', verifyToken, (req, res) => {
+app.get('/express_backend', (req, res) => {
     res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
 
