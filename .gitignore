@@ -14,7 +14,7 @@ dist-ssr
 *.local
 
 Server/node_modules
-Client/news/node_modules
+news_client/node_modules
 
 # Editor directories and files
 .vscode/*

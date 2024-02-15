@@ -205,15 +205,10 @@ app.post('/register', async (req, res) => {
 
 app.post('/news', async (req, res) => {
     let newsData = [];
-
     const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=3dcec0ba5d034093893fefe812afd712';
-
     try {
         const response = await axios.get(url);
-
-        // If response.data.articles is already an array, directly assign it
         newsData = response.data.articles;
-
         res.status(200).json({ status: 'success', news: newsData });
     } catch (error) {
         console.error("Error fetching news:", error);
