@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
-
+const axios = require('axios');
 const bcrypt = require('bcrypt');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
@@ -27,7 +27,7 @@ app.use(cors());
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
-  });
+});
 
 // Middleware for verifying JWT
 function verifyToken(req, res, next) {
@@ -200,4 +200,27 @@ app.post('/register', async (req, res) => {
     } finally {
         await client.close();
     }
+});
+
+
+app.post('/news', async (req, res) => {
+    let newsData = [];
+
+    const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=3dcec0ba5d034093893fefe812afd712';
+
+    try {
+        const response = await axios.get(url);
+
+        // If response.data.articles is already an array, directly assign it
+        newsData = response.data.articles;
+
+        res.status(200).json({ status: 'success', news: newsData });
+    } catch (error) {
+        console.error("Error fetching news:", error);
+        res.status(500).json({ status: 'error', message: 'An error occurred while fetching news' });
+    }
+});
+
+app.get('/profile', (req, res) => {
+    res.json({ status: 'success', message: 'Profile data fetched successfully' });
 });
