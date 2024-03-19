@@ -59,7 +59,7 @@ app.get('/express_backend', (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    console.log(username, password);
+    // console.log(username, password);
 
     try {
         await client.connect();
@@ -70,7 +70,7 @@ app.post('/login', async (req, res) => {
 
         const user = await collection.findOne({ username: username });
 
-        console.log(user);
+        // console.log(user);
 
         if (user) {
             bcrypt.compare(password, user.password, async (err, result) => {
@@ -212,7 +212,7 @@ app.post('/news', async (req, res) => {
         newsData = response.data.articles;
         res.status(200).json({ status: 'success', news: newsData });
     } catch (error) {
-        console.error("Error fetching news:", error);
+        // console.error("Error fetching news:", error);
         res.status(500).json({ status: 'error', message: 'An error occurred while fetching news' });
     }
 });
