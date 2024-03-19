@@ -1,12 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const bcrypt = require('bcrypt');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const uri = "mongodb+srv://jackwill7080:Kashyap7080@portfoliokash.kyrqmza.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.CONNECTION_STRING;
 
 const app = express();
 const port = process.env.PORT || 6000;
@@ -205,7 +206,7 @@ app.post('/register', async (req, res) => {
 
 app.post('/news', async (req, res) => {
     let newsData = [];
-    const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=3dcec0ba5d034093893fefe812afd712';
+    const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_API_KEY}`;
     try {
         const response = await axios.get(url);
         newsData = response.data.articles;
