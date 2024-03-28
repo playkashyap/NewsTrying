@@ -10,7 +10,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.CONNECTION_STRING;
 
 const app = express();
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 4000;
 
 
 const client = new MongoClient(uri, {
