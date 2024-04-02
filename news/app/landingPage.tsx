@@ -15,7 +15,7 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import getLPTheme from './theme';
-
+import apiService from './Shared/service';
 interface ToggleCustomThemeProps {
     showCustomTheme: Boolean;
     toggleCustomTheme: () => void;
@@ -65,6 +65,8 @@ export default function LandingPage() {
     const LPtheme = createTheme(getLPTheme(mode));
     const defaultTheme = createTheme({ palette: { mode } });
 
+    const [gotData, setGotData] = React.useState([]);
+
     const toggleColorMode = () => {
         setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
     };
@@ -73,12 +75,28 @@ export default function LandingPage() {
         setShowCustomTheme((prev) => !prev);
     };
 
+
+    React.useEffect(() => {
+        apiService('news', 'POST').subscribe(
+            (res: any) => {
+                setGotData(res.response.news);
+            }
+        );
+    }, []);
+
+
     return (
         <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
             <CssBaseline />
             <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
             <Box sx={{ bgcolor: 'background.default' }}>
-                <Features />
+
+                {gotData.map((data: any, index: number) => {
+                    return (
+                        <Features key={index} data={data} />
+                    );
+                }
+                )}
                 <Divider />
                 <Testimonials />
                 <Divider />
