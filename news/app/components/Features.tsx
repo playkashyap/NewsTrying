@@ -22,6 +22,7 @@ export default function Features(data: any) {
 
   return (
     <Container id="features" sx={{ pt: { xs: 8, sm: 16 } }}>
+
       <Grid container spacing={6}>
         <Grid item xs={12} md={6}>
           <div>
