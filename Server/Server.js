@@ -20,9 +20,25 @@ app.listen(port, '0.0.0.0', () => {
 });
 
 
+app.get('/countries', (req, res) => {
+    res.json({ status: 'success', message: 'Countries data fetched successfully' });
+});
+
+
 app.post('/news', async (req, res) => {
     let newsData = [];
-    const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_API_KEY}`;
+    let country = 'us'; // Default to 'us' if geolocation fails
+    const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=${process.env.NEWS_API_KEY}`;
+    const geoUrl = 'http://ip-api.com/json/';
+
+    try {
+        const geoResponse = await axios.get(geoUrl);
+        country = geoResponse.data.countryCode.toLowerCase();
+    } catch (error) {
+        console.error("Error fetching server location:", error);
+    }
+
+
     try {
         const response = await axios.get(url);
         newsData = response.data.articles;

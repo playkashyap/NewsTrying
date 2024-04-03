@@ -103,7 +103,7 @@ export default function Features(data: any) {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover', // Ensure the image covers the entire container
+                objectFit: 'cover',
               }}
             />
           </Card>
