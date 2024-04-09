@@ -102,7 +102,7 @@ export default function Footer() {
           <Typography variant="body2" fontWeight={600}>
             Product
           </Typography>
-          <Link color="text.secondary" href="#">
+          <Link color="text.secondary" href="/abc">
             Features
           </Link>
           <Link color="text.secondary" href="#">
