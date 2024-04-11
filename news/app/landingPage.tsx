@@ -9,6 +9,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import AppAppBar from './components/AppAppBar';
+import CircularProgress from '@mui/material/CircularProgress';
 import Highlights from './components/Highlights';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
@@ -16,6 +17,8 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import getLPTheme from './theme';
 import apiService from './Shared/service';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
 interface ToggleCustomThemeProps {
     showCustomTheme: Boolean;
     toggleCustomTheme: () => void;
@@ -64,6 +67,7 @@ export default function LandingPage() {
     const [showCustomTheme, setShowCustomTheme] = React.useState(true);
     const LPtheme = createTheme(getLPTheme(mode));
     const defaultTheme = createTheme({ palette: { mode } });
+    const [dtaReceived, setDtaReceived] = React.useState(false);
 
     const [gotData, setGotData] = React.useState([]);
 
@@ -77,9 +81,11 @@ export default function LandingPage() {
 
 
     React.useEffect(() => {
+        setDtaReceived(false);
         apiService('news', 'POST').subscribe(
             (res: any) => {
                 setGotData(res.response.news);
+                setDtaReceived(true);
             }
         );
     }, []);
@@ -91,19 +97,24 @@ export default function LandingPage() {
             <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
             <Box sx={{ bgcolor: 'background.default' }}>
 
-                {gotData.map((data: any, index: number) => {
-                    return (
-                        <Features key={index} data={data} />
-                    );
+                {dtaReceived ?
+                    <>
+                        {gotData.map((data: any, index: number) => { return (<Features key={index} data={data} />); })}
+                    </> :
+                    <Container id="features" sx={{ pt: { xs: 8, sm: 16 } }}>
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+                            <CircularProgress />
+                        </Stack>
+                    </Container>
                 }
-                )}
-                <Divider />
+
+                {/* <Divider />
                 <Testimonials />
                 <Divider />
                 <Highlights />
                 <Divider />
                 <Divider />
-                <FAQ />
+                <FAQ /> */}
                 <Divider />
                 <Footer />
             </Box>
